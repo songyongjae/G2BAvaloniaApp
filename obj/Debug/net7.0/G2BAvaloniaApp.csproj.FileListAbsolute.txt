@@ -1,7 +1,0 @@
-/Users/songyongjae/Desktop/x/00/C#/G2BAvaloniaApp/obj/Debug/net7.0/G2BAvaloniaApp.csproj.AssemblyReference.cache
-/Users/songyongjae/Desktop/x/00/C#/G2BAvaloniaApp/obj/Debug/net7.0/Avalonia/Resources.Inputs.cache
-/Users/songyongjae/Desktop/x/00/C#/G2BAvaloniaApp/obj/Debug/net7.0/Avalonia/resources
-/Users/songyongjae/Desktop/x/00/C#/G2BAvaloniaApp/obj/Debug/net7.0/G2BAvaloniaApp.GeneratedMSBuildEditorConfig.editorconfig
-/Users/songyongjae/Desktop/x/00/C#/G2BAvaloniaApp/obj/Debug/net7.0/G2BAvaloniaApp.AssemblyInfoInputs.cache
-/Users/songyongjae/Desktop/x/00/C#/G2BAvaloniaApp/obj/Debug/net7.0/G2BAvaloniaApp.AssemblyInfo.cs
-/Users/songyongjae/Desktop/x/00/C#/G2BAvaloniaApp/obj/Debug/net7.0/G2BAvaloniaApp.csproj.CoreCompileInputs.cache
