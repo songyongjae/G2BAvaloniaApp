@@ -1,0 +1,145 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:G2BAvaloniaApp"
+        x:Class="G2BAvaloniaApp.MainWindow"
+        x:DataType="local:MainWindow"
+        Title="Avalonia G2B RPA"
+        Width="1200" Height="800"
+        Background="#2D2D2D"
+        Foreground="White">
+  
+  <Window.Resources>
+    <!-- 로그 텍스트 색상 변환용 -->
+    <local:LogSeverityToColorConverter x:Key="LogSeverityToColorConverter"/>
+    <!-- 로그 항목 배경색 변환용 -->
+    <local:LogSeverityToBackgroundColorConverter x:Key="LogSeverityToBackgroundColorConverter"/>
+  </Window.Resources>
+
+  <DockPanel>
+    <!-- 상단 메뉴바 -->
+    <Menu DockPanel.Dock="Top"
+          Background="#333333"
+          Foreground="White"
+          BorderBrush="#444"
+          BorderThickness="0,0,0,1">
+      <MenuItem Header="_File">
+        <MenuItem Header="Exit" Click="OnExitClick"/>
+      </MenuItem>
+      <MenuItem Header="_Help">
+        <MenuItem Header="About" Click="OnAboutClick"/>
+      </MenuItem>
+    </Menu>
+    
+    <!-- 중앙 메인 영역 -->
+    <Grid Margin="20">
+      <Grid.RowDefinitions>
+        <!-- Row 0: 헤더 -->
+        <RowDefinition Height="Auto"/>
+        <!-- Row 1: 검색 컨트롤 -->
+        <RowDefinition Height="Auto"/>
+        <!-- Row 2: 탭컨트롤 (로그 및 추가 정보) -->
+        <RowDefinition Height="*"/>
+        <!-- Row 3: 진행 상태 표시 -->
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      
+      <!-- 헤더 영역 -->
+      <TextBlock Grid.Row="0"
+                 Text="나라장터 크롤러 (Avalonia)"
+                 FontSize="28"
+                 FontWeight="Bold"
+                 HorizontalAlignment="Center"
+                 Margin="0,0,0,20"/>
+      
+      <!-- 검색어 입력 및 제어 버튼 영역 -->
+      <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+        <TextBlock Text="검색어:" VerticalAlignment="Center" FontSize="16"/>
+        <TextBox x:Name="KeywordTextBox"
+                 Width="300"
+                 Margin="10,0,0,0"
+                 FontSize="16"
+                 Background="#3A3A3A" Foreground="White"/>
+        <Button x:Name="StartButton"
+                Content="Start"
+                Margin="20,0,0,0"
+                Width="100"
+                Height="40"
+                FontSize="16"
+                Click="OnStartClick"/>
+        <Button x:Name="StopButton"
+                Content="Stop"
+                Margin="10,0,0,0"
+                Width="100"
+                Height="40"
+                FontSize="16"
+                Click="OnStopClick"/>
+      </StackPanel>
+      
+      <!-- 탭컨트롤 영역: 로그 탭과 추가 상세정보 탭 -->
+      <TabControl Grid.Row="2"
+                  Background="#3A3A3A"
+                  BorderBrush="#444"
+                  BorderThickness="1">
+        <!-- 로그 탭 (필터, 검색, 삭제, 더블클릭 상세보기 기능 추가) -->
+        <TabItem Header="Log">
+          <StackPanel Margin="10" Spacing="5">
+            <!-- 필터 및 제어 영역 -->
+            <StackPanel Orientation="Horizontal" Spacing="10">
+              <CheckBox x:Name="InfoCheckBox" Content="Info" IsChecked="True"/>
+              <CheckBox x:Name="WarnCheckBox" Content="Warn" IsChecked="True"/>
+              <CheckBox x:Name="ErrorCheckBox" Content="Error" IsChecked="True"/>
+              <TextBox x:Name="LogSearchTextBox" Width="200" Watermark="Search logs..."/>
+              <Button x:Name="ClearLogsButton" Content="Clear Logs" Click="OnClearLogsClick"/>
+            </StackPanel>
+            <!-- 로그 목록 영역 -->
+            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="10">
+              <ListBox x:Name="LogListBox" 
+                       ItemsSource="{Binding FilteredLogEntries, Mode=OneWay}"
+                       Background="#2D2D2D"
+                       BorderThickness="0">
+                <ListBox.ItemTemplate>
+                  <DataTemplate x:DataType="local:LogEntry">
+                    <Border Background="{Binding Severity, Converter={StaticResource LogSeverityToBackgroundColorConverter}}"
+                            CornerRadius="3"
+                            Padding="5"
+                            Margin="2">
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Timestamp, StringFormat='[{0:HH:mm:ss}] '}" 
+                                   Foreground="#AAAAAA" 
+                                   FontSize="12"
+                                   Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding Message}" 
+                                   Foreground="{Binding Severity, Converter={StaticResource LogSeverityToColorConverter}}"
+                                   FontSize="14"/>
+                      </StackPanel>
+                    </Border>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </Border>
+          </StackPanel>
+        </TabItem>
+        
+        <!-- 추가 상세정보 탭 -->
+        <TabItem Header="Details">
+          <StackPanel Margin="10" Spacing="5">
+            <TextBlock Text="작업 상태:" FontSize="16" FontWeight="Bold"/>
+            <TextBlock x:Name="StatusDetail" Text="대기 중" FontSize="14"/>
+            <Separator Margin="0,10,0,10"/>
+            <TextBlock Text="로그 통계" FontSize="16" FontWeight="Bold"/>
+            <TextBlock x:Name="TotalLogsText" Text="총 로그 수: 0" FontSize="14"/>
+            <TextBlock x:Name="ErrorCountText" Text="에러 로그 수: 0" FontSize="14"/>
+            <TextBlock x:Name="WarnCountText" Text="경고 로그 수: 0" FontSize="14"/>
+            <TextBlock x:Name="InfoCountText" Text="정보 로그 수: 0" FontSize="14"/>
+          </StackPanel>
+        </TabItem>
+      </TabControl>
+      
+      <!-- 진행 상태 표시 영역 -->
+      <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,20,0,0" HorizontalAlignment="Center">
+        <ProgressBar x:Name="ProgressBar" Width="400" Height="20" IsIndeterminate="True"/>
+        <TextBlock x:Name="ProgressText" Text="진행중..." Margin="10,0,0,0" VerticalAlignment="Center" FontSize="14"/>
+      </StackPanel>
+    </Grid>
+  </DockPanel>
+</Window>
