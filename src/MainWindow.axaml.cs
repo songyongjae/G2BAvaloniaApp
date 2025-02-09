@@ -1,5 +1,7 @@
+// MainWindow.axaml.cs
+
 using System;
-using System.Collections.Generic;         // 추가: IEnumerable<> 사용을 위해
+using System.Collections.Generic;    
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
