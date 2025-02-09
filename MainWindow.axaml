@@ -80,11 +80,18 @@
                   Background="#3A3A3A"
                   BorderBrush="#444"
                   BorderThickness="1">
-        <!-- 로그 탭 (필터, 검색, 삭제, 더블클릭 상세보기 기능 추가) -->
+        <!-- 로그 탭 -->
         <TabItem Header="Log">
           <StackPanel Margin="10" Spacing="5">
-            <!-- 필터 및 제어 영역 -->
-            <StackPanel Orientation="Horizontal" Spacing="10">
+            <!-- Display Mode 및 필터/제어 영역 -->
+            <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+              <TextBlock Text="Display Mode:" VerticalAlignment="Center"/>
+              <!-- Display Mode ComboBox -->
+              <ComboBox x:Name="DisplayModeComboBox" Width="150" SelectedIndex="0">
+                <ComboBoxItem Content="All Logs"/>
+                <ComboBoxItem Content="Latest Logs"/>
+              </ComboBox>
+              <!-- 기존 필터 컨트롤 -->
               <CheckBox x:Name="InfoCheckBox" Content="Info" IsChecked="True"/>
               <CheckBox x:Name="WarnCheckBox" Content="Warn" IsChecked="True"/>
               <CheckBox x:Name="ErrorCheckBox" Content="Error" IsChecked="True"/>
