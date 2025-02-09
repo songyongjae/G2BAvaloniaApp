@@ -1,0 +1,1 @@
+./publish/G2BAvaloniaApp
